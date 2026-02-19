@@ -15,7 +15,7 @@ import { createClient } from '@supabase/supabase-js';
 import { nanoid } from 'nanoid';
 
 // Load environment variables
-require('dotenv').config({ path: '.env.local' });
+require('dotenv').config({ path: '.env' });
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
