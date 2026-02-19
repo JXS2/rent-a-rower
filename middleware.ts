@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { validateSession } from '@/lib/sessions';
 
 export function middleware(request: NextRequest) {
   // Only protect /admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
     const token = request.cookies.get('admin_token')?.value;
 
-    // Verify token matches admin password
-    if (!token || token !== process.env.ADMIN_PASSWORD) {
+    // Verify token is a valid session
+    if (!token || !validateSession(token)) {
       // Redirect to login page
       return NextResponse.redirect(new URL('/login', request.url));
     }
@@ -17,5 +18,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*']
+  matcher: ['/admin/:path*', '/admin']
 };
