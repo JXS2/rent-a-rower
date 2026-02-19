@@ -1,9 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: NextRequest) {
   try {
-    const { data: bookings, error } = await supabaseAdmin
+    const { searchParams } = new URL(request.url);
+    const dateId = searchParams.get('date_id');
+
+    let query = supabaseAdmin
       .from('bookings')
       .select(
         `
@@ -11,8 +16,16 @@ export async function GET() {
         customers(*),
         available_dates(*)
       `
-      )
-      .order('created_at', { ascending: false });
+      );
+
+    // Filter by date_id if provided
+    if (dateId) {
+      query = query.eq('date_id', dateId);
+    }
+
+    const { data: bookings, error } = await query.order('created_at', {
+      ascending: false,
+    });
 
     if (error) {
       console.error('Error fetching bookings:', error);
