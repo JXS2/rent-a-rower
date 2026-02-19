@@ -273,6 +273,12 @@ export default function DatesPage() {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Available Dates for {activeSeason.name}
               </h2>
+              {/*
+                Note: Remaining Capacity calculation will be implemented after roster management (Task 3).
+                Capacity calculation logic:
+                - For each date: Sum of (rower.committed_rars - completed_jobs - pending_jobs) for all active rowers
+                - Remaining capacity = total capacity - total_rowers already booked for that date
+              */}
               {dates.length === 0 ? (
                 <p className="text-gray-600">No dates added yet</p>
               ) : (
@@ -291,6 +297,9 @@ export default function DatesPage() {
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Total Rowers
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Remaining Capacity
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
@@ -331,6 +340,9 @@ export default function DatesPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {date.total_rowers}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            —
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             -
