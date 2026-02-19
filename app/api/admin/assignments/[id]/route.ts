@@ -10,10 +10,11 @@ function isValidUUID(uuid: string): boolean {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const assignmentId = params.id;
+    const { id } = await params;
+    const assignmentId = id;
 
     // Validate assignment ID is a valid UUID
     if (!isValidUUID(assignmentId)) {
@@ -98,10 +99,11 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const assignmentId = params.id;
+    const { id } = await params;
+    const assignmentId = id;
 
     // Validate assignment ID is a valid UUID
     if (!isValidUUID(assignmentId)) {

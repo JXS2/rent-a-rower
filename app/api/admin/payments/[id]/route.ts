@@ -3,10 +3,11 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const bookingId = params.id;
+    const { id } = await params;
+    const bookingId = id;
 
     // Update the payment status to 'paid'
     const { data, error } = await supabaseAdmin

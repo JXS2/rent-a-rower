@@ -4,10 +4,10 @@ import { supabaseAdmin } from '@/lib/supabase';
 // DELETE /api/admin/rowers/[id] - remove rower
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const { error } = await supabaseAdmin
       .from('rowers')
@@ -31,10 +31,10 @@ export async function DELETE(
 // PATCH /api/admin/rowers/[id] - edit rower
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { name, email, phone, role, transportation, committed_rars } = body;
 

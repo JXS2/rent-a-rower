@@ -4,10 +4,10 @@ import { sendSwapDeclinedNotification } from '@/lib/email';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { token: string } }
+  { params }: { params: Promise<{ token: string }> }
 ) {
   try {
-    const { token } = params;
+    const { token } = await params;
 
     // Find the swap by replacement token
     const { data: swap, error: swapError } = await supabaseAdmin

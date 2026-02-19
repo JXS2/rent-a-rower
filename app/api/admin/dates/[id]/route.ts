@@ -3,9 +3,10 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const { bookings_open } = await request.json();
 
     if (typeof bookings_open !== 'boolean') {
@@ -18,7 +19,7 @@ export async function PATCH(
     const { data: updatedDate, error } = await supabaseAdmin
       .from('available_dates')
       .update({ bookings_open })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 

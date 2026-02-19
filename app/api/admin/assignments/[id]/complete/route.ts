@@ -3,10 +3,11 @@ import { supabaseAdmin } from '@/lib/supabase';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const assignmentId = params.id;
+    const { id } = await params;
+    const assignmentId = id;
     const body = await request.json();
     const { completed } = body;
 
