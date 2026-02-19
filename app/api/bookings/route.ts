@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { geocodeAddress } from '@/lib/geocode';
 import { stripe } from '@/lib/stripe';
+import { sendBookingConfirmation } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -187,6 +188,14 @@ export async function POST(request: NextRequest) {
           .update({ stripe_payment_id: session.id })
           .eq('id', booking.id);
 
+        // Send booking confirmation email
+        await sendBookingConfirmation(email, {
+          date: new Date(dateData.date).toLocaleDateString(),
+          numRowers: num_rowers,
+          total: total_amount,
+          paymentMethod: 'stripe',
+        });
+
         return NextResponse.json({
           booking_id: booking.id,
           checkout_url: session.url,
@@ -200,7 +209,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // For cash/check payments, return booking ID
+    // For cash/check payments, send confirmation email and return booking ID
+    await sendBookingConfirmation(email, {
+      date: new Date(dateData.date).toLocaleDateString(),
+      numRowers: num_rowers,
+      total: total_amount,
+      paymentMethod: 'cash_check',
+    });
+
     return NextResponse.json({
       booking_id: booking.id,
     });
