@@ -17,7 +17,7 @@ export default function Home() {
     phone: '',
     address: '',
     num_rowers: 1,
-    payment_method: 'stripe',
+    payment_method: 'cash_check',
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -235,17 +235,6 @@ export default function Home() {
                     <input
                       type="radio"
                       name="payment_method"
-                      value="stripe"
-                      checked={formData.payment_method === 'stripe'}
-                      onChange={(e) => setFormData({ ...formData, payment_method: e.target.value })}
-                      className="mr-3"
-                    />
-                    <span className="text-gray-900">Pay Online (Credit/Debit Card)</span>
-                  </label>
-                  <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="payment_method"
                       value="cash_check"
                       checked={formData.payment_method === 'cash_check'}
                       onChange={(e) => setFormData({ ...formData, payment_method: e.target.value })}
@@ -253,6 +242,18 @@ export default function Home() {
                     />
                     <span className="text-gray-900">Pay by Cash/Check</span>
                   </label>
+                  <div className="p-3 border border-gray-200 rounded-lg bg-gray-50">
+                    <div className="flex items-center text-gray-500">
+                      <input
+                        type="radio"
+                        name="payment_method"
+                        value="stripe"
+                        disabled
+                        className="mr-3"
+                      />
+                      <span>Pay Online (Credit/Debit Card) - Coming Soon</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 

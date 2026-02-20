@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
 
     // Destroy the session if it exists
     if (token) {
-      destroySession(token);
+      await destroySession(token);
     }
 
     const response = NextResponse.json({ success: true });

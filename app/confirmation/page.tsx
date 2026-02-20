@@ -2,15 +2,16 @@ import { supabaseAdmin } from '@/lib/supabase';
 import Link from 'next/link';
 
 interface ConfirmationPageProps {
-  searchParams: {
+  searchParams: Promise<{
     booking_id?: string;
-  };
+  }>;
 }
 
 export default async function ConfirmationPage({
   searchParams,
 }: ConfirmationPageProps) {
-  const bookingId = searchParams.booking_id;
+  const params = await searchParams;
+  const bookingId = params.booking_id;
 
   // If no booking ID, show error
   if (!bookingId) {

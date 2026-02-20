@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create a session token instead of storing password
-    const sessionToken = createSession();
+    const sessionToken = await createSession();
 
     const response = NextResponse.json({ success: true });
 
