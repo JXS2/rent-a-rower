@@ -30,10 +30,9 @@ export default function LoginPage() {
       }
 
       if (data.success) {
-        // Redirect to admin dashboard
-        router.push('/admin');
-        // Force a hard refresh to ensure middleware picks up the cookie
-        router.refresh();
+        // Use window.location for a hard redirect to ensure cookie is sent
+        // This ensures the middleware sees the cookie immediately
+        window.location.href = '/admin';
       } else {
         setError('Login failed. Please try again.');
         setLoading(false);
