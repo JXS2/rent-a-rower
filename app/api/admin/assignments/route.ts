@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
             .select(
               `
               *,
-              rowers(*)
+              rowers!assignments_rower_id_fkey(*)
             `
             )
             .eq('booking_id', booking.id);
